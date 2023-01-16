@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>game page</title>
+    <link href="style.css" rel="stylesheet" />
+  </head>
+  <body>
+    <nav>
+      <div class="main-page">
+        <a href="index.html">table</a>
+        <div class="mpage active"></div>
+      </div>
+      <p>peroidic table</p>
+      <div class="game-page">
+        <a href="game.html">game</a>
+        <div class="gpage"></div>
+      </div>
+    </nav>
+    <div class="modelist">
+        
+<div class="mode-holder">
+    <p>select mode : </p>
+    <div class="list">
+        <button id="mode">easy</button>
+        <ul class="active" id="modes">
+            <li>easy</li>
+            <li>medium</li>
+            <li>difficult</li>
+        </ul>
+        <ul class="ques active">
+            <li>ques</li>
+            <li id="rand-ques">sica</li>
+        </ul>
+    </div>
+    <button id="play">play</button>
+</div>
+<div class="score active">
+    <p>score : <span id="rate">0</span></p>
+</div>
+    </div>
+    <div class="table-container">
+        <div class="element-holder">
+          </div>
+          <div class="second-box">
+          </div>
+        </div>
+      </div>
+      <script src="game.js"></script>
+  </body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>peroidic table</title>
+    <link rel="stylesheet" href="style.css" />
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="popcontainer">
+    
+    </div>
+  </div>
+    <nav>
+      <div class="main-page">
+        <a href="index.html">table</a>
+        <div class="mpage"></div>
+      </div>
+      <p>peroidic table</p>
+      <div class="game-page">
+        <a href="game.html">game</a>
+        <div class="gpage active"></div>
+      </div>
+    </nav>
+    <div class="table-container">
+      <div class="element-holder">
+        </div>
+        <div class="second-box">
+        </div>
+      </div>
+    </div>
+    
+    <section class="search-container">
+      <div class="header">
+        <p>search</p>
+      </div>
+      
+    </section>
+    <div class="inputs">
+      <div class="select">
+        <button onclick="showselectlist()">select</button>
+        <ul class="list sactive">
+          <li data="atomic number">atomic number</li>
+          <li data="atomic name">atomic name</li>
+          <li data="symbol">symbol</li>
+          <li data="state">state</li>
+          <li data="bonding type">bonding type</li>
+        </ul>
+      </div>
+      <div class="for-search">
+      <div class="in-val">
+        <input class="rinput">
+        <div class="state active">
+          <button onclick="showpoplist()">solid</button>
+          <ul class="statelist active">
+            <li data="solid">solid</li>
+            <li data="gas">gas</li>
+            <li data="liquid">liquid</li>
+          </ul>
+        </div>
+        <label>Enter atomic number</label>
+      </div>
+      <div class="searchbtn"><button >search</button></div>
+    </div>
+    </div>
+    <div class="contents">
+      <div class="content"><div id="forhead">
+        <p>search here..</p>
+      </div></div>
+          </div>
+    
+    <script src="script.js"></script>
+  </body>
+</html>
