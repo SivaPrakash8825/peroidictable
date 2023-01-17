@@ -576,6 +576,10 @@ li:hover {
 
   text-align: center;
 }
+.mode-holder p {
+  margin-left: 5px;
+  width: 90px;
+}
 .list ul {
   list-style: none;
   background: wheat;
@@ -601,28 +605,28 @@ li:hover {
   height: 25px;
   border: 2px solid darkkhaki;
   border-radius: 12px;
-  margin-left: 60px;
+  margin-left: 3px;
 }
 .ques li {
   line-height: 23px;
 }
 
 .score {
-  text-align: center;
   border: 2px solid black;
   width: 130px;
-  margin-left: 10px;
+  margin-left: 3px;
+  position: relative;
+  text-align: center;
 }
+
 .ques {
   position: absolute;
-  left: 10%;
-  width: 120px;
+  left: -10%;
+  width: 100px;
   bottom: -20px;
-  margin-right: 10px;
 }
 .ques li {
   pointer-events: none;
-  background: red;
 }
 .gameelement {
   background: darkolivegreen;
@@ -640,7 +644,8 @@ li:hover {
   }
 }
 
-.success {
+.success,
+.failed {
   pointer-events: none;
 }
 .main-page,
@@ -657,4 +662,17 @@ li:hover {
   border-bottom: 5px solid rgb(6, 123, 248);
 
   position: absolute;
+}
+
+@media screen and (max-width: 700px) {
+  #high {
+    position: absolute;
+    bottom: 100%;
+    text-align: center;
+    right: -10px;
+    width: 120px;
+    border-radius: 12px;
+    border: 2px solid black;
+    background: rgb(19, 240, 207);
+  }
 }

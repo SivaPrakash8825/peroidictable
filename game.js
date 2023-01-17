@@ -1,4 +1,5 @@
 const container = document.querySelector(".element-holder");
+const rcontainer = document.querySelector(".table-container");
 const playbtn = document.querySelector("#play");
 const container2 = document.querySelector(".second-box");
 const modes = document.querySelectorAll("#modes li");
@@ -7,6 +8,8 @@ const ques = document.querySelector(".ques");
 const randques = document.querySelector("#rand-ques");
 const rate = document.querySelector("#rate");
 const preloader = document.getElementById("preloader");
+
+const elements = rcontainer.querySelectorAll(".elements");
 
 window.addEventListener("load", () => {
   preloader.style.display = "none";
@@ -24,6 +27,7 @@ modes.forEach((li) => {
 
 window.addEventListener("DOMContentLoaded", () => {
   createtable();
+  sethightscore();
 });
 async function fetchalldata() {
   const posts = await fetch("https://neelpatel05.pythonanywhere.com");
@@ -32,6 +36,10 @@ async function fetchalldata() {
 }
 
 async function createtable() {
+  const box1 = document.createElement("div");
+  box1.classList.add("element-holder");
+  const box2 = document.createElement("div");
+  box2.classList.add("second-box");
   const data = await fetchalldata();
   let html = "";
   let html2 = "";
@@ -66,8 +74,10 @@ async function createtable() {
     }
   });
 
-  container.innerHTML = html;
-  container2.innerHTML = html2;
+  box1.innerHTML = html;
+  box2.innerHTML = html2;
+  rcontainer.appendChild(box1);
+  rcontainer.appendChild(box2);
 }
 
 function settablemode(mode) {
@@ -157,12 +167,13 @@ modebtn.addEventListener("click", () => {
 const startpara = document.querySelector(".mode-holder p");
 let gameid = 0;
 playbtn.addEventListener("click", () => {
-  startpara.innerHTML = "Game Start : ";
+  startpara.innerHTML = "GameStart:";
   playbtn.innerHTML = "Quit";
   modesbtn.classList.add("active");
   score.classList.toggle("active");
   modebtn.classList.toggle("active");
   ques.classList.toggle("active");
+
   gameid++;
   if (gameid == 2) {
     location.reload(true);
@@ -179,65 +190,66 @@ async function fetchrandomdata(val) {
 }
 
 async function generaterandval() {
-  let rand = Math.floor(Math.random() * 118);
+  let rand = Math.floor(Math.random() * 118) + 1;
   const data = await fetchrandomdata(rand);
-
   randques.innerHTML = data.name;
   gamestart();
 }
 
 function gamestart() {
-  const box1 = container.querySelectorAll(".elements");
-  const box2 = container2.querySelectorAll(".elements");
-  let val = "";
-  box1.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      val = btn.getAttribute("id");
-      showresult(val, btn);
-    });
-  });
+  const eleval = rcontainer.querySelectorAll(".elements");
 
-  box2.forEach((btn) => {
-    btn.addEventListener("click", () => {
+  eleval.forEach((btn) => {
+    btn.addEventListener("click", (event) => {
       val = btn.getAttribute("id");
-      showresult(val, btn);
+      console.log(val);
+      if (val === randques.innerHTML) {
+        scorerating = scorerating + 100;
+
+        rate.innerHTML = scorerating;
+
+        btn.classList.add("success");
+        console.log("suceen");
+        setcolorval(scorerating);
+        generaterandval();
+      } else {
+        scorerating = scorerating - 100;
+        if (scorerating < 0) {
+          rate.style.color = "red";
+        }
+        btn.classList.add("failed");
+        rate.innerHTML = scorerating;
+        btn.style.background = "red";
+      }
     });
   });
 }
 
-function showresult(val, btn) {
-  if (val === randques.innerHTML) {
-    scorerating = scorerating + 100;
-    rate.innerHTML = scorerating;
-    btn.classList.add("success");
-    setcolorval();
+function setcolorval() {
+  const ele = rcontainer.querySelectorAll(".gameelement");
+  ele.forEach((btn) => {
+    const clas = btn.getAttribute("class");
 
-    generaterandval();
-  } else {
-    scorerating = scorerating - 100;
-    if (scorerating < 0) {
-      rate.style.color = "red";
+    if (clas === "elements gameelement success") {
+      btn.style.background = "green";
+    } else {
+      btn.classList.remove("failed");
+      btn.style.background = "darkolivegreen";
     }
-    rate.innerHTML = scorerating;
-    btn.style.background = "red";
+  });
+  setlshighscore();
+}
+const high = document.querySelector("#highscore");
+async function setlshighscore(curscore) {
+  if (curscore > high.innerHTML) {
+    localStorage.setItem("highscore", curscore);
+
+    sethightscore();
   }
 }
-function setcolorval() {
-  const box1 = container.querySelectorAll(".elements");
-  const box2 = container2.querySelectorAll(".elements");
-  box1.forEach((btn) => {
-    if (btn.classList.contains("success")) {
-      btn.style.background = "green";
-    } else {
-      btn.style.background = "darkolivegreen";
-    }
-  });
 
-  box2.forEach((btn) => {
-    if (btn.classList.contains("success")) {
-      btn.style.background = "green";
-    } else {
-      btn.style.background = "darkolivegreen";
-    }
-  });
+function sethightscore() {
+  let lsdata = localStorage.getItem("highscore");
+
+  high.innerHTML = lsdata;
 }
