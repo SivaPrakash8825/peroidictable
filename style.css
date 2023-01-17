@@ -186,7 +186,8 @@ nav p {
     display: flex;
   }
   .in-val input {
-    width: 180px;
+    width: 200px;
+    background: red;
   }
   .select ul {
     background-color: aliceblue;
