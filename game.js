@@ -6,6 +6,11 @@ const score = document.querySelector(".score");
 const ques = document.querySelector(".ques");
 const randques = document.querySelector("#rand-ques");
 const rate = document.querySelector("#rate");
+const preloader = document.getElementById("preloader");
+
+window.addEventListener("load", () => {
+  preloader.style.display = "none";
+});
 
 let scorerating = 0;
 

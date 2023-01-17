@@ -4,6 +4,11 @@ const selectbox = document.querySelector(".sactive");
 const search = document.querySelector(".searchbtn button");
 const contents = document.querySelector(".contents");
 const popcontainer = document.querySelector(".popcontainer");
+const preloader = document.getElementById("preloader");
+
+window.addEventListener("load", () => {
+  preloader.style.display = "none";
+});
 
 window.addEventListener("DOMContentLoaded", () => {
   createtable();
