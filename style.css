@@ -187,15 +187,6 @@ nav p {
   }
   .in-val input {
     width: 200px;
-    background: white;
-  }
-  .select ul {
-    background-color: aliceblue;
-    z-index: 11;
-  }
-  #forhead {
-    width: 80%;
-    background-color: red;
   }
 }
 .in-val {
@@ -243,14 +234,7 @@ nav p {
   align-items: center;
   justify-content: space-around;
 }
-.inputs .select button {
-  border: none;
-  width: 80px;
-  font-size: 20px;
-  cursor: pointer;
-  background: transparent;
-  border-bottom: 2px solid black;
-}
+
 input {
   border: 2px solid rgb(120, 116, 116);
   outline: none;
@@ -298,17 +282,14 @@ li:hover {
 .contents {
   padding: 20px 20px;
 }
+.backholder {
+  border-radius: 12px;
+  background: rebeccapurple;
+}
 .contents .content {
   width: 100%;
 
   display: flex;
-
-  background: rgb(211, 233, 237);
-  background: linear-gradient(
-    332deg,
-    rgba(211, 233, 237, 0.9473039215686274) 0%,
-    rgba(1, 138, 214, 1) 53%
-  );
 
   flex-direction: column;
   align-items: center;
@@ -352,9 +333,7 @@ li:hover {
 .active {
   display: none;
 }
-.sactive {
-  display: none;
-}
+
 .state {
   width: 120px;
   height: 25px;
@@ -386,11 +365,12 @@ li:hover {
   width: 100%;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.6);
+
   position: fixed;
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1;
+  z-index: 100;
 }
 .subpop {
   width: 60%;
@@ -412,7 +392,7 @@ li:hover {
   justify-content: center;
   flex-direction: column;
   align-items: center;
-  line-height: 3whrem;
+  line-height: 3rem;
   background: blue;
   font-size: 25px;
   border-radius: 12px;
@@ -577,8 +557,9 @@ li:hover {
   text-align: center;
 }
 .mode-holder p {
-  margin-left: 5px;
+  margin-left: 3px;
   width: 90px;
+  display: flex;
 }
 .list ul {
   list-style: none;
@@ -587,19 +568,26 @@ li:hover {
   position: absolute;
   overflow: hidden;
 }
-.list #modes li {
-  width: 90px;
-  line-height: 2rem;
-}
 
-#mode {
-  width: 60px;
+#modes,
+#state {
+  outline: none;
+  width: 90px;
   border: none;
   background: transparent;
+  text-align: center;
+  margin-left: -10px;
   border-bottom: 2px solid black;
-  cursor: pointer;
 }
-
+#selector {
+  outline: none;
+  width: 150px;
+  border: none;
+  background: transparent;
+  text-align: center;
+  margin-left: -10px;
+  border-bottom: 2px solid black;
+}
 #play {
   width: 80px;
   height: 25px;
@@ -639,8 +627,50 @@ li:hover {
     width: 90px;
     margin-left: 7px;
   }
-  .list {
-    margin: 0;
+
+  .subpop {
+    width: 90%;
+    height: 70%;
+    display: flex;
+
+    align-items: center;
+    flex-direction: column;
+    background: white;
+    border-radius: 12px;
+    position: relative;
+  }
+
+  .maininfo {
+    width: 200px;
+    height: 200px;
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    line-height: 3whrem;
+    background: blue;
+    font-size: 25px;
+    border-radius: 12px;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.6);
+    text-transform: capitalize;
+  }
+  .maininfo p:nth-child(2) {
+    font-weight: bold;
+    font-size: 40px;
+  }
+  .maininfo p:nth-child(4) {
+    font-size: 20px;
+  }
+
+  .eledetails {
+    margin-top: 20px;
+    width: 80%;
+    height: 300px;
+    border-radius: 12px;
+    background: rgb(29, 223, 187);
+    overflow: scroll;
+    margin-bottom: 20px;
   }
 }
 
@@ -674,5 +704,20 @@ li:hover {
     border-radius: 12px;
     border: 2px solid black;
     background: rgb(19, 240, 207);
+  }
+  #modes {
+    margin-left: -20px;
+  }
+  #state {
+    margin-left: 40px;
+  }
+  .searchbtn {
+    margin-right: 40px;
+  }
+  input {
+    margin-left: 20px;
+  }
+  label {
+    margin-left: 20px;
   }
 }

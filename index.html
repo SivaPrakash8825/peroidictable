@@ -42,35 +42,38 @@
     </section>
     <div class="inputs">
       <div class="select">
-        <button onclick="showselectlist()">select</button>
-        <ul class="list sactive">
-          <li data="atomic number">atomic number</li>
-          <li data="atomic name">atomic name</li>
-          <li data="symbol">symbol</li>
-          <li data="state">state</li>
-          <li data="bonding type">bonding type</li>
-        </ul>
+        
+        <select class="list" id="selector" onclick="findselectlist()">
+          <option value="atomic number">atomic number</option>
+          <option value="atomic name">atomic name</option>
+          <option value="symbol">symbol</option>
+          <option value="state">state</option>
+          <option value="bonding type">bonding type</option>
+        </select>
       </div>
       <div class="for-search">
       <div class="in-val">
         <input class="rinput">
-        <div class="state active">
-          <button onclick="showpoplist()">solid</button>
-          <ul class="statelist active">
-            <li data="solid">solid</li>
-            <li data="gas">gas</li>
-            <li data="liquid">liquid</li>
-          </ul>
-        </div>
+        
+          
+          <select class="statelist active" id="state">
+            <option data="solid">solid</option>
+            <option data="gas">gas</option>
+            <option data="liquid">liquid</option>
+          </select>
+        
         <label>Enter atomic number</label>
       </div>
       <div class="searchbtn"><button >search</button></div>
     </div>
     </div>
     <div class="contents">
-      <div class="content"><div id="forhead">
-        <p>search here..</p>
-      </div></div>
+      <div class="backholder">
+        <div class="content"><div id="forhead">
+          <p>search here..</p>
+        </div></div>
+      </div>
+      
           </div>
     
     <script src="script.js"></script>

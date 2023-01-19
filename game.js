@@ -1,8 +1,7 @@
-const container = document.querySelector(".element-holder");
 const rcontainer = document.querySelector(".table-container");
 const playbtn = document.querySelector("#play");
-const container2 = document.querySelector(".second-box");
-const modes = document.querySelectorAll("#modes li");
+
+const modes = document.querySelector("#modes");
 const score = document.querySelector(".score");
 const ques = document.querySelector(".ques");
 const randques = document.querySelector("#rand-ques");
@@ -16,13 +15,8 @@ window.addEventListener("load", () => {
 });
 
 let scorerating = 0;
-
-modes.forEach((li) => {
-  li.addEventListener("click", () => {
-    settablemode(li.innerHTML);
-    setmodeval(li.innerHTML);
-    document.querySelector("#modes").classList.toggle("active");
-  });
+modes.addEventListener("click", () => {
+  settablemode(modes.value);
 });
 
 window.addEventListener("DOMContentLoaded", () => {
@@ -40,6 +34,7 @@ async function createtable() {
   box1.classList.add("element-holder");
   const box2 = document.createElement("div");
   box2.classList.add("second-box");
+
   const data = await fetchalldata();
   let html = "";
   let html2 = "";
@@ -76,78 +71,38 @@ async function createtable() {
 
   box1.innerHTML = html;
   box2.innerHTML = html2;
+
   rcontainer.appendChild(box1);
   rcontainer.appendChild(box2);
+  settablemode(modes.value);
 }
 
 function settablemode(mode) {
+  const con1 = rcontainer.querySelectorAll("#sym");
+  const num = rcontainer.querySelectorAll("#number");
   if (mode === "easy") {
-    const con1 = container.querySelectorAll("#sym");
-    const con = container.querySelectorAll("#number");
-    const con2 = container2.querySelectorAll("#sym");
-    const conn2 = container2.querySelectorAll("#number");
+    num.forEach((li) => {
+      li.classList.remove("active");
+    });
     con1.forEach((li) => {
-      if (li.classList.contains("active")) {
-        li.classList.remove("active");
-      }
-    });
-    con.forEach((li) => {
-      if (li.classList.contains("active")) {
-        li.classList.remove("active");
-      }
-    });
-    con2.forEach((li) => {
-      if (li.classList.contains("active")) {
-        li.classList.remove("active");
-      }
-    });
-    conn2.forEach((li) => {
       if (li.classList.contains("active")) {
         li.classList.remove("active");
       }
     });
   } else if (mode === "medium") {
-    const con1 = container.querySelectorAll("#sym");
-    const con = container.querySelectorAll("#number");
-    const con2 = container2.querySelectorAll("#sym");
-    const conn2 = container2.querySelectorAll("#number");
     con1.forEach((li) => {
       if (!li.classList.contains("active")) li.classList.add("active");
     });
-    con.forEach((btn) => {
-      if (btn.classList.contains("active")) {
-        btn.classList.remove("active");
-      }
-    });
-    con2.forEach((li) => {
-      if (!li.classList.contains("active")) li.classList.add("active");
-    });
-    conn2.forEach((btn) => {
-      if (btn.classList.contains("active")) {
-        btn.classList.remove("active");
-      }
+    num.forEach((li) => {
+      li.classList.remove("active");
     });
   } else if (mode === "difficult") {
-    const con1 = container.querySelectorAll("#sym");
-    const con = container.querySelectorAll("#number");
-    const con2 = container2.querySelectorAll("#sym");
-    const conn2 = container2.querySelectorAll("#number");
     con1.forEach((li) => {
       if (!li.classList.contains("active")) {
         li.classList.add("active");
       }
     });
-    con.forEach((li) => {
-      if (!li.classList.contains("active")) {
-        li.classList.add("active");
-      }
-    });
-    con2.forEach((li) => {
-      if (!li.classList.contains("active")) {
-        li.classList.add("active");
-      }
-    });
-    conn2.forEach((li) => {
+    num.forEach((li) => {
       if (!li.classList.contains("active")) {
         li.classList.add("active");
       }
@@ -155,30 +110,28 @@ function settablemode(mode) {
   }
 }
 
-function setmodeval(val) {
-  modebtn.innerHTML = val;
-}
-
-const modebtn = document.querySelector("#mode");
-const modesbtn = document.querySelector("#modes");
-modebtn.addEventListener("click", () => {
-  document.querySelector("#modes").classList.toggle("active");
-});
 const startpara = document.querySelector(".mode-holder p");
-let gameid = 0;
+let gameid = 1;
 playbtn.addEventListener("click", () => {
-  startpara.innerHTML = "GameStart:";
-  playbtn.innerHTML = "Quit";
-  modesbtn.classList.add("active");
-  score.classList.toggle("active");
-  modebtn.classList.toggle("active");
-  ques.classList.toggle("active");
-
-  gameid++;
-  if (gameid == 2) {
-    location.reload(true);
+  if (gameid === 1) {
+    generaterandval();
   }
-  generaterandval();
+  if (gameid % 2 == 0) {
+    deletecolor();
+    playbtn.innerHTML = "play again";
+    ques.classList.toggle("active");
+    modes.classList.toggle("active");
+    scorerating = 0;
+    gameid++;
+  } else {
+    startpara.innerHTML = "GameStart:";
+    playbtn.innerHTML = "Quit";
+    modes.classList.toggle("active");
+    score.classList.remove("active");
+    ques.classList.toggle("active");
+    rate.innerHTML = scorerating;
+    gameid++;
+  }
 });
 
 async function fetchrandomdata(val) {
@@ -192,37 +145,41 @@ async function fetchrandomdata(val) {
 async function generaterandval() {
   let rand = Math.floor(Math.random() * 118) + 1;
   const data = await fetchrandomdata(rand);
+  console.log(rand);
   randques.innerHTML = data.name;
   gamestart();
 }
 
 function gamestart() {
   const eleval = rcontainer.querySelectorAll(".elements");
+  let check = true;
+  for (let i = 0; i < eleval.length; i++) {
+    eleval[i].addEventListener("click", (event) => {
+      val = eleval[i].getAttribute("id");
+      if (check) {
+        if (val === randques.innerHTML) {
+          scorerating = scorerating + 100;
 
-  eleval.forEach((btn) => {
-    btn.addEventListener("click", (event) => {
-      val = btn.getAttribute("id");
-      console.log(val);
-      if (val === randques.innerHTML) {
-        scorerating = scorerating + 100;
+          rate.innerHTML = scorerating;
 
-        rate.innerHTML = scorerating;
+          eleval[i].classList.add("success");
+          setlshighscore(scorerating);
+          setcolorval(scorerating);
 
-        btn.classList.add("success");
-        console.log("suceen");
-        setcolorval(scorerating);
-        generaterandval();
-      } else {
-        scorerating = scorerating - 100;
-        if (scorerating < 0) {
-          rate.style.color = "red";
+          generaterandval();
+          check = false;
+        } else {
+          scorerating = scorerating - 100;
+          if (scorerating < 0) {
+            rate.style.color = "red";
+          }
+          eleval[i].classList.add("failed");
+          rate.innerHTML = scorerating;
+          eleval[i].style.background = "red";
         }
-        btn.classList.add("failed");
-        rate.innerHTML = scorerating;
-        btn.style.background = "red";
       }
     });
-  });
+  }
 }
 
 function setcolorval() {
@@ -237,10 +194,19 @@ function setcolorval() {
       btn.style.background = "darkolivegreen";
     }
   });
-  setlshighscore();
+}
+
+function deletecolor() {
+  const ele = rcontainer.querySelectorAll(".gameelement");
+  ele.forEach((btn) => {
+    btn.classList.remove("success");
+
+    btn.classList.remove("failed");
+    btn.style.background = "darkolivegreen";
+  });
 }
 const high = document.querySelector("#highscore");
-async function setlshighscore(curscore) {
+function setlshighscore(curscore) {
   if (curscore > high.innerHTML) {
     localStorage.setItem("highscore", curscore);
 
@@ -250,6 +216,7 @@ async function setlshighscore(curscore) {
 
 function sethightscore() {
   let lsdata = localStorage.getItem("highscore");
-
-  high.innerHTML = lsdata;
+  if (lsdata > 0) {
+    high.innerHTML = lsdata;
+  }
 }

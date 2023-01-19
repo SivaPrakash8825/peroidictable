@@ -2,10 +2,11 @@ const container = document.querySelector(".element-holder");
 const container2 = document.querySelector(".second-box");
 const selectbox = document.querySelector(".sactive");
 const search = document.querySelector(".searchbtn button");
-const contents = document.querySelector(".contents");
+const contents = document.querySelector(".backholder");
 const popcontainer = document.querySelector(".popcontainer");
 const preloader = document.getElementById("preloader");
-
+const statebtn = document.querySelector(".statelist");
+const lable = document.querySelector(".in-val label");
 window.addEventListener("load", () => {
   preloader.style.display = "none";
 });
@@ -71,13 +72,7 @@ function siva() {
   });
 }
 
-function showcontent(pn, cn) {}
 siva();
-
-function showselectlist() {
-  const tog = document.querySelector(".list");
-  tog.classList.toggle("sactive");
-}
 
 async function getdatabyatname(val) {
   const posts = await fetch(
@@ -107,26 +102,23 @@ async function getdatabysymbol(val) {
 
 let val = "";
 function findselectlist() {
-  const lab = document.querySelectorAll(".list li");
+  const lab = document.querySelector(".list");
   const inval = document.querySelector(".in-val label");
-  const tog = document.querySelector(".list");
+
   let ls = document.querySelector(".in-val input");
-  lab.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      tog.classList.toggle("sactive");
-      ls.value = "";
-      val = btn.getAttribute("data");
-      if (ls.classList.contains("active")) {
-        ls.classList.remove("active");
-        inval.classList.remove("active");
-        state.classList.add("active");
-      }
-      if (val === "state") {
-        showstatelist();
-      }
-      inval.innerHTML = `Enter ${btn.innerHTML}`;
-    });
-  });
+
+  ls.value = "";
+  val = lab.value;
+  if (ls.classList.contains("active")) {
+    ls.classList.remove("active");
+    inval.classList.remove("active");
+    statebtn.classList.add("active");
+  }
+  if (val === "state") {
+    showstatelist();
+  }
+  inval.innerHTML = `Enter ${lab.value}`;
+
   return val;
 }
 findselectlist();
@@ -134,6 +126,7 @@ findselectlist();
 search.addEventListener("click", async () => {
   const inval = document.querySelector(".in-val input").value;
   const sel = findselectlist();
+
   //console.log(sel);
   if (sel === "atomic number") {
     const data = await getdatabynumber(inval);
@@ -194,30 +187,13 @@ function setatomicname(ele) {
   });
 }
 
-const state = document.querySelector(".in-val .state");
-let dat = "solid";
 function showstatelist() {
-  const statebtn = document.querySelector(".state button");
-  const tog = document.querySelector(".in-val input").classList.add("active");
-  const lab = document.querySelector(".in-val label").classList.add("active");
-  state.classList.remove("active");
-
-  const statlists = document.querySelectorAll(".state ul li");
-
-  statlists.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      statebtn.innerHTML = btn.getAttribute("data");
-      dat = btn.getAttribute("data");
-
-      document.querySelector(".state .statelist").classList.toggle("active");
-    });
-  });
+  statebtn.classList.remove("active");
+  inputs.classList.add("active");
+  lable.classList.add("active");
+  let dat = statebtn.value;
   //console.log(dat);
   return dat;
-}
-
-function showpoplist() {
-  document.querySelector(".statelist").classList.toggle("active");
 }
 
 async function fetchdatabystate(state) {
