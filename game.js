@@ -191,7 +191,7 @@ function setcolorval() {
       btn.style.background = "green";
     } else {
       btn.classList.remove("failed");
-      btn.style.background = "darkolivegreen";
+      btn.style.background = "white";
     }
   });
 }
@@ -202,7 +202,7 @@ function deletecolor() {
     btn.classList.remove("success");
 
     btn.classList.remove("failed");
-    btn.style.background = "darkolivegreen";
+    btn.style.background = "white";
   });
 }
 const high = document.querySelector("#highscore");
