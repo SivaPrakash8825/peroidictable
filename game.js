@@ -119,6 +119,7 @@ playbtn.addEventListener("click", () => {
   if (gameid % 2 == 0) {
     deletecolor();
     playbtn.innerHTML = "play again";
+    startpara.innerHTML = "select mode:";
     ques.classList.toggle("active");
     modes.classList.toggle("active");
     scorerating = 0;
