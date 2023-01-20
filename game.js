@@ -10,6 +10,11 @@ const preloader = document.getElementById("preloader");
 
 const elements = rcontainer.querySelectorAll(".elements");
 
+let arr = [];
+for (let i = 1; i <= 118; i++) {
+  arr.push(i);
+}
+
 window.addEventListener("load", () => {
   preloader.style.display = "none";
 });
@@ -144,9 +149,11 @@ async function fetchrandomdata(val) {
 }
 
 async function generaterandval() {
-  let rand = Math.floor(Math.random() * 118) + 1;
-  const data = await fetchrandomdata(rand);
-  console.log(rand);
+  let rand = Math.floor(Math.random() * arr.length);
+
+  console.log(arr[rand]);
+  const data = await fetchrandomdata(arr[rand]);
+  arr.splice(rand, 1);
   randques.innerHTML = data.name;
   gamestart();
 }
