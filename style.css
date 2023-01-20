@@ -726,6 +726,8 @@ li:hover {
   }
   .mode-holder p {
     margin-left: 10px;
+    background: red;
+    width: 90px;
   }
 }
 
