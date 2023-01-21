@@ -789,6 +789,22 @@ label {
   label {
     margin-left: -55px;
   }
+  .mode-holder p {
+    margin-left: 20px;
+    margin-bottom: 20px;
+  }
+  #modes {
+    position: absolute;
+    left: -15%;
+    bottom: 10%;
+  }
+
+  #play {
+    margin-bottom: 20px;
+  }
+  .score {
+    margin-right: 40px;
+  }
 }
 
 .owner {
