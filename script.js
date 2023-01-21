@@ -293,7 +293,7 @@ function setpopup() {
     btn.addEventListener("click", async () => {
       const data = await getdatabyatname(btn.getAttribute("id"));
 
-      showpopup(data), btn;
+      showpopup(data, btn);
     });
   });
 }
