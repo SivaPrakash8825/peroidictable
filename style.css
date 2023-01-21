@@ -831,3 +831,12 @@ label {
 
   border-radius: 12px;
 }
+
+.header {
+  width: 90%;
+  box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.6);
+  background: #bddbd9;
+}
+.header p {
+  color: #a870e1;
+}
