@@ -7,6 +7,7 @@ const popcontainer = document.querySelector(".popcontainer");
 const preloader = document.getElementById("preloader");
 const statebtn = document.querySelector(".statelist");
 const lable = document.querySelector(".in-val label");
+const danger = document.getElementById("danger");
 window.addEventListener("load", () => {
   preloader.style.display = "none";
 });
@@ -62,45 +63,61 @@ async function createtable() {
 
 const btns = document.querySelectorAll(".contents .content #forhead");
 
-function siva() {
-  const ch = document.createElement("p");
-
-  btns.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      showcontent(btn.parentNode, btn);
-    });
-  });
-}
-
-siva();
-
 async function getdatabyatname(val) {
-  const posts = await fetch(
-    `https://neelpatel05.pythonanywhere.com/element/atomicname?atomicname=${val}`
-  );
-  const data = await posts.json();
-
-  return data;
+  try {
+    const posts = await fetch(
+      `https://neelpatel05.pythonanywhere.com/element/atomicname?atomicname=${val}`
+    );
+    const data = await posts.json();
+    if (data.atomicNumber === undefined) {
+      throw "error";
+    }
+    go = true;
+    return data;
+  } catch (e) {
+    danger.innerHTML = `invalid input ${val}`;
+    go = false;
+  }
 }
 async function getdatabynumber(val) {
-  const posts = await fetch(
-    `https://neelpatel05.pythonanywhere.com/element/atomicnumber?atomicnumber=${val}`
-  );
-  const data = await posts.json();
-
-  return data;
+  try {
+    const posts = await fetch(
+      `https://neelpatel05.pythonanywhere.com/element/atomicnumber?atomicnumber=${val}`
+    );
+    const data = await posts.json();
+    if (data.atomicNumber === undefined) {
+      throw "error";
+    }
+    go = true;
+    return data;
+  } catch (e) {
+    danger.innerHTML = `invalid input ${val}`;
+    go = false;
+  }
 }
 
 async function getdatabysymbol(val) {
-  const posts = await fetch(
-    `https://neelpatel05.pythonanywhere.com/element/symbol?symbol=${val}`
-  );
-  const data = await posts.json();
-
-  return data;
+  try {
+    const posts = await fetch(
+      `https://neelpatel05.pythonanywhere.com/element/symbol?symbol=${val}`
+    );
+    const data = await posts.json();
+    if (data.atomicNumber === undefined) {
+      throw "error";
+    }
+    go = true;
+    return data;
+  } catch (e) {
+    danger.innerHTML = `invalid input ${val}`;
+    go = false;
+  }
 }
 
 let val = "";
+const selector = document.querySelector("#selector");
+selector.addEventListener("change", () => {
+  findselectlist();
+});
 function findselectlist() {
   const lab = document.querySelector(".list");
   const inval = document.querySelector(".in-val label");
@@ -121,8 +138,8 @@ function findselectlist() {
 
   return val;
 }
-findselectlist();
 
+let go = true;
 search.addEventListener("click", async () => {
   const inval = document.querySelector(".in-val input").value;
   const sel = findselectlist();
@@ -130,21 +147,24 @@ search.addEventListener("click", async () => {
   //console.log(sel);
   if (sel === "atomic number") {
     const data = await getdatabynumber(inval);
-    setatomicname(data);
+    if (go) {
+      setatomicname(data);
+    }
   } else if (sel === "atomic name") {
     const data = await getdatabyatname(inval);
-
-    setatomicname(data);
+    if (go) setatomicname(data);
   } else if (sel === "symbol") {
     const data = await getdatabysymbol(inval);
-    setatomicname(data);
+    if (go) setatomicname(data);
   } else if (sel === "state") {
     const data = showstatelist();
     // console.log(data);
-    showstatecontent(data);
+    if (go) showstatecontent(data);
   } else {
     const data = await getdatabynumber(inval);
-    setatomicname(data);
+    if (go) {
+      setatomicname(data);
+    }
   }
 });
 
@@ -204,6 +224,11 @@ async function fetchdatabystate(state) {
   return data;
 }
 
+const states = document.querySelector("#state");
+states.addEventListener("change", () => {
+  showstatelist();
+});
+
 async function showstatecontent(state) {
   const data = await fetchdatabystate(state);
   setcontentdata(data);
@@ -260,26 +285,27 @@ function setpopup() {
   box1.forEach((btn) => {
     btn.addEventListener("click", async () => {
       const data = await getdatabyatname(btn.getAttribute("id"));
-      console.log("siva");
-      showpopup(data);
+
+      showpopup(data, btn);
     });
   });
   box2.forEach((btn) => {
     btn.addEventListener("click", async () => {
       const data = await getdatabyatname(btn.getAttribute("id"));
 
-      showpopup(data);
+      showpopup(data), btn;
     });
   });
 }
 
-function showpopup(data) {
+function showpopup(data, btn) {
   const popup = document.createElement("div");
   popup.classList.add("popup");
+  let color = btn.getAttribute("class");
   let val = "";
   val += `<div class="subpop">
   <i class="ri-close-circle-line" id="close"></i>
-  <div class="maininfo">
+  <div class="maininfo ${color}">
     <p>${data.atomicNumber}</p>
     <p>${data.symbol}</p>
     <p>${data.name}</p>
@@ -289,6 +315,7 @@ function showpopup(data) {
     
   </div>`;
   popup.innerHTML = val;
+
   const eledetails = popup.querySelector(".eledetails");
   const keysel = Object.keys(data);
   let eleval = "";

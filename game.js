@@ -9,18 +9,21 @@ const rate = document.querySelector("#rate");
 const preloader = document.getElementById("preloader");
 
 const elements = rcontainer.querySelectorAll(".elements");
-
 let arr = [];
-for (let i = 1; i <= 118; i++) {
-  arr.push(i);
+function createarray() {
+  arr = [];
+  for (let i = 1; i <= 118; i++) {
+    arr.push(i);
+  }
 }
+createarray();
 
 window.addEventListener("load", () => {
   preloader.style.display = "none";
 });
 
 let scorerating = 0;
-modes.addEventListener("click", () => {
+modes.addEventListener("change", () => {
   settablemode(modes.value);
 });
 
@@ -60,7 +63,7 @@ async function createtable() {
       html += `<div class="elements gameelement" id=${ele.name}>
         <p id="number">${ele.atomicNumber}</p>
         <p id=sym>${ele.symbol}</p>
-        <p></p>
+        <p class="active" id="par">${ele.name}</p>
         </div>`;
     } else {
       if (ele.atomicNumber == 57 || ele.atomicNumber == 89) {
@@ -69,7 +72,7 @@ async function createtable() {
       html2 += `<div class="elements gameelement" id=${ele.name}>
         <p id="number">${ele.atomicNumber}</p>
         <p id=sym>${ele.symbol}</p>
-        <p></p>
+        <p class="active" id="par">${ele.name}</p>
         </div>`;
     }
   });
@@ -117,20 +120,27 @@ function settablemode(mode) {
 
 const startpara = document.querySelector(".mode-holder p");
 let gameid = 1;
+let start = true;
+
 playbtn.addEventListener("click", () => {
   if (gameid === 1) {
     generaterandval();
   }
   if (gameid % 2 == 0) {
     deletecolor();
+    createarray();
+
     playbtn.innerHTML = "play again";
     startpara.innerHTML = "select mode:";
     ques.classList.toggle("active");
     modes.classList.toggle("active");
     scorerating = 0;
+    start = false;
     gameid++;
   } else {
+    start = true;
     startpara.innerHTML = "GameStart:";
+
     playbtn.innerHTML = "Quit";
     modes.classList.toggle("active");
     score.classList.remove("active");
@@ -163,22 +173,24 @@ function gamestart() {
   let check = true;
   for (let i = 0; i < eleval.length; i++) {
     eleval[i].addEventListener("click", (event) => {
+      console.log("siva");
       val = eleval[i].getAttribute("id");
-      if (check) {
+      if (check && start) {
         if (val === randques.innerHTML) {
           scorerating = scorerating + 100;
 
           rate.innerHTML = scorerating;
-
+          if (scorerating > 0) {
+            rate.style.color = "green";
+          }
           eleval[i].classList.add("success");
           setlshighscore(scorerating);
           setcolorval(scorerating);
-
-          generaterandval();
           check = false;
+          generaterandval();
         } else {
           scorerating = scorerating - 100;
-          if (scorerating < 0) {
+          if (scorerating <= 0) {
             rate.style.color = "red";
           }
           eleval[i].classList.add("failed");
@@ -188,6 +200,7 @@ function gamestart() {
       }
     });
   }
+  return 0;
 }
 
 function setcolorval() {
@@ -196,6 +209,8 @@ function setcolorval() {
     const clas = btn.getAttribute("class");
 
     if (clas === "elements gameelement success") {
+      btn.querySelector("#par").classList.remove("active");
+
       btn.style.background = "green";
     } else {
       btn.classList.remove("failed");
@@ -208,7 +223,7 @@ function deletecolor() {
   const ele = rcontainer.querySelectorAll(".gameelement");
   ele.forEach((btn) => {
     btn.classList.remove("success");
-
+    btn.querySelector("#par").classList.add("active");
     btn.classList.remove("failed");
     btn.style.background = "white";
   });
