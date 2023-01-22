@@ -626,7 +626,9 @@ label {
   margin-left: -10px;
   border-bottom: 2px solid black;
 }
-#play {
+#play,
+#playagain,
+#quit {
   width: 80px;
 
   height: 25px;
@@ -799,7 +801,9 @@ label {
     bottom: 10%;
   }
 
-  #play {
+  #play,
+  #playagain,
+  #quit {
     margin-bottom: 20px;
   }
   .score {

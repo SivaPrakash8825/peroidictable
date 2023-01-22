@@ -121,35 +121,60 @@ function settablemode(mode) {
 const startpara = document.querySelector(".mode-holder p");
 let gameid = 1;
 let start = true;
-
+const quit = document.querySelector("#quit");
+const playagain = document.querySelector("#playagain");
 playbtn.addEventListener("click", () => {
-  if (gameid === 1) {
-    generaterandval();
-    gamestart();
-  }
-  if (gameid % 2 == 0) {
-    deletecolor();
-    createarray();
+  generaterandval();
 
-    playbtn.innerHTML = "play again";
-    startpara.innerHTML = "select mode:";
-    ques.classList.toggle("active");
-    modes.classList.toggle("active");
-    scorerating = 0;
-    start = false;
-    stop = 1;
-    gameid = 1;
-  } else {
-    start = true;
-    startpara.innerHTML = "GameStart:";
+  startpara.innerHTML = "GameStart:";
 
-    playbtn.innerHTML = "Quit";
-    modes.classList.toggle("active");
-    score.classList.remove("active");
-    ques.classList.toggle("active");
-    rate.innerHTML = scorerating;
-    gameid++;
-  }
+  quit.classList.remove("active");
+  playbtn.classList.add("active");
+  modes.classList.toggle("active");
+  score.classList.remove("active");
+  ques.classList.toggle("active");
+  rate.innerHTML = scorerating;
+  // if (gameid === 1) {
+  //   generaterandval();
+  //   gamestart();
+  // }
+  // if (gameid % 2 == 0) {
+  //   deletecolor();
+  //   createarray();
+
+  //   playbtn.innerHTML = "play again";
+  //   startpara.innerHTML = "select mode:";
+  //   ques.classList.toggle("active");
+  //   modes.classList.toggle("active");
+  //   scorerating = 0;
+  //   start = false;
+  //   stop = 1;
+  //   gameid = 1;
+  // } else {
+  //   start = true;
+  //
+  //   gameid++;
+  // }
+});
+
+quit.addEventListener("click", () => {
+  check = false;
+  scorerating = 0;
+  deletecolor();
+  createarray();
+  modes.classList.remove("active");
+  ques.classList.add("active");
+  quit.classList.add("active");
+  playagain.classList.remove("active");
+});
+playagain.addEventListener("click", () => {
+  check = true;
+  rate.innerHTML = scorerating;
+  quit.classList.remove("active");
+  ques.classList.remove("active");
+  modes.classList.add("active");
+  playagain.classList.toggle("active");
+  generaterandval();
 });
 
 async function fetchrandomdata(val) {
@@ -164,21 +189,26 @@ async function generaterandval() {
   let rand = Math.floor(Math.random() * arr.length);
 
   console.log(arr[rand]);
+  console.log(arr.length);
+  console.log(arr);
   const data = await fetchrandomdata(arr[rand]);
   arr.splice(rand, 1);
+  check = true;
   randques.innerHTML = data.name;
-  stop = 0;
+  gamestart();
 }
 let stop = 0;
+let check = true;
 function gamestart() {
   const eleval = rcontainer.querySelectorAll(".elements");
-  let check = true;
-  console.log("prakash");
 
+  console.log("prakash");
+  check = true;
   for (let i = 0; i < eleval.length; i++) {
     eleval[i].addEventListener("click", (event) => {
       val = eleval[i].getAttribute("id");
-      if (check && stop == 0) {
+      if (check && !eleval[i].classList.contains("failed")) {
+        console.log("siv");
         if (val === randques.innerHTML) {
           scorerating = scorerating + 100;
 
@@ -190,16 +220,13 @@ function gamestart() {
           setlshighscore(scorerating);
           setcolorval(scorerating);
           check = false;
-          if (stop === 0) {
-            stop++;
-            generaterandval();
-            gamestart();
-          }
+          generaterandval();
         } else {
           scorerating = scorerating - 100;
           if (scorerating <= 0) {
             rate.style.color = "red";
           }
+
           eleval[i].classList.add("failed");
           rate.innerHTML = scorerating;
           eleval[i].style.background = "red";
