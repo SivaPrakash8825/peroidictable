@@ -125,6 +125,7 @@ let start = true;
 playbtn.addEventListener("click", () => {
   if (gameid === 1) {
     generaterandval();
+    gamestart();
   }
   if (gameid % 2 == 0) {
     deletecolor();
@@ -136,7 +137,8 @@ playbtn.addEventListener("click", () => {
     modes.classList.toggle("active");
     scorerating = 0;
     start = false;
-    gameid++;
+    stop = 1;
+    gameid = 1;
   } else {
     start = true;
     startpara.innerHTML = "GameStart:";
@@ -165,17 +167,18 @@ async function generaterandval() {
   const data = await fetchrandomdata(arr[rand]);
   arr.splice(rand, 1);
   randques.innerHTML = data.name;
-  gamestart();
+  stop = 0;
 }
-
+let stop = 0;
 function gamestart() {
   const eleval = rcontainer.querySelectorAll(".elements");
   let check = true;
+  console.log("prakash");
+
   for (let i = 0; i < eleval.length; i++) {
     eleval[i].addEventListener("click", (event) => {
-      console.log("siva");
       val = eleval[i].getAttribute("id");
-      if (check && start) {
+      if (check && stop == 0) {
         if (val === randques.innerHTML) {
           scorerating = scorerating + 100;
 
@@ -187,7 +190,11 @@ function gamestart() {
           setlshighscore(scorerating);
           setcolorval(scorerating);
           check = false;
-          generaterandval();
+          if (stop === 0) {
+            stop++;
+            generaterandval();
+            gamestart();
+          }
         } else {
           scorerating = scorerating - 100;
           if (scorerating <= 0) {
