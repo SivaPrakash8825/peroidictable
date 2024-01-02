@@ -32,7 +32,7 @@ window.addEventListener("DOMContentLoaded", () => {
   sethightscore();
 });
 async function fetchalldata() {
-  const posts = await fetch("https://neelpatel05.pythonanywhere.com");
+  const posts = await fetch("./data.json");
   const data = await posts.json();
   return data;
 }
@@ -178,11 +178,17 @@ playagain.addEventListener("click", () => {
 });
 
 async function fetchrandomdata(val) {
-  const post = await fetch(
-    `https://neelpatel05.pythonanywhere.com/element/atomicnumber?atomicnumber=${val}`
-  );
-  const data = await post.json();
-  return data;
+  const posts = await (await fetch("./data.json")).json();
+
+  const ele = posts.filter((data) => {
+    return data.atomicNumber == val;
+  });
+
+  if (ele[0].atomicNumber === undefined) {
+    throw "error";
+  }
+  go = true;
+  return ele[0];
 }
 
 async function generaterandval() {

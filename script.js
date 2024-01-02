@@ -17,8 +17,10 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 
 async function fetchalldata() {
-  const posts = await fetch("https://neelpatel05.pythonanywhere.com");
+  const posts = await fetch("./data.json");
+
   const data = await posts.json();
+  // console.log(data);
   return data;
 }
 
@@ -65,15 +67,17 @@ const btns = document.querySelectorAll(".contents .content #forhead");
 
 async function getdatabyatname(val) {
   try {
-    const posts = await fetch(
-      `https://neelpatel05.pythonanywhere.com/element/atomicname?atomicname=${val}`
-    );
-    const data = await posts.json();
-    if (data.atomicNumber === undefined) {
+    const posts = await (await fetch("./data.json")).json();
+
+    const ele = posts.filter((data) => {
+      return data.name == val;
+    });
+
+    if (ele[0].atomicNumber === undefined) {
       throw "error";
     }
     go = true;
-    return data;
+    return ele[0];
   } catch (e) {
     danger.innerHTML = `invalid input ${val}`;
     go = false;
@@ -81,15 +85,17 @@ async function getdatabyatname(val) {
 }
 async function getdatabynumber(val) {
   try {
-    const posts = await fetch(
-      `https://neelpatel05.pythonanywhere.com/element/atomicnumber?atomicnumber=${val}`
-    );
-    const data = await posts.json();
-    if (data.atomicNumber === undefined) {
+    const posts = await (await fetch("./data.json")).json();
+
+    const ele = posts.filter((data) => {
+      return data.atomicNumber == val;
+    });
+
+    if (ele[0].atomicNumber === undefined) {
       throw "error";
     }
     go = true;
-    return data;
+    return ele[0];
   } catch (e) {
     danger.innerHTML = `invalid input ${val}`;
     go = false;
@@ -98,15 +104,17 @@ async function getdatabynumber(val) {
 
 async function getdatabysymbol(val) {
   try {
-    const posts = await fetch(
-      `https://neelpatel05.pythonanywhere.com/element/symbol?symbol=${val}`
-    );
-    const data = await posts.json();
-    if (data.atomicNumber === undefined) {
+    const posts = await (await fetch("./data.json")).json();
+
+    const ele = posts.filter((data) => {
+      return data.symbol == val;
+    });
+
+    if (ele[0].atomicNumber === undefined) {
       throw "error";
     }
     go = true;
-    return data;
+    return ele[0];
   } catch (e) {
     danger.innerHTML = `invalid input ${val}`;
     go = false;
@@ -217,11 +225,21 @@ function showstatelist() {
 }
 
 async function fetchdatabystate(state) {
-  const posts = await fetch(
-    `https://neelpatel05.pythonanywhere.com/element/state?state=${state}`
-  );
-  const data = await posts.json();
-  return data;
+  console.log(state);
+  const posts = await (await fetch("./data.json")).json();
+
+  const ele = posts.filter((data) => {
+    return data.standardState == state;
+  });
+
+  // console.log(ele);
+  go = true;
+  return ele;
+  // const posts = await fetch(
+  //   `https://neelpatel05.pythonanywhere.com/element/state?state=${state}`
+  // );
+  // const data = await posts.json();
+  // return data;
 }
 
 const states = document.querySelector("#state");
@@ -285,7 +303,7 @@ function setpopup() {
   box1.forEach((btn) => {
     btn.addEventListener("click", async () => {
       const data = await getdatabyatname(btn.getAttribute("id"));
-
+      // console.log(data);
       showpopup(data, btn);
     });
   });
